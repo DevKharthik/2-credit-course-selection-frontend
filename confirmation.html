@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Confirmation</title>
+    <style>
+     body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.confirmation-container {
+    width: 50%;
+    max-width: 600px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #555;
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.highlight {
+    color: #009688;
+}
+
+.highlight#course {
+    font-weight: bold;
+}
+
+p span:nth-of-type(1) {
+    flex-basis: 30%;
+    text-align: right;
+    margin-right: 20px;
+}
+
+p span:nth-of-type(2) {
+    flex-basis: 70%;
+    text-align: left;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .confirmation-container {
+        width: 80%;
+        padding: 30px;
+    }
+
+    p span:nth-of-type(1) {
+        flex-basis: 40%;
+    }
+
+    p span:nth-of-type(2) {
+        flex-basis: 60%;
+    }
+}
+    </style>
+</head>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Confirmation</title>
+    <style>
+      body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+
+.confirmation-container {
+    width: 50%;
+    max-width: 600px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+p {
+    color: #555;
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.highlight {
+    font-weight: bold;
+    color: #009688;
+}
+
+p span:nth-of-type(1) {
+    flex-basis: 30%;
+    text-align: right;
+    margin-right: 20px;
+}
+
+p span:nth-of-type(2) {
+    flex-basis: 70%;
+    text-align: left;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .confirmation-container {
+        width: 80%;
+        padding: 30px;
+    }
+
+    p span:nth-of-type(1) {
+        flex-basis: 40%;
+    }
+
+    p span:nth-of-type(2) {
+        flex-basis: 60%;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="confirmation-container">
+        <h1 style="font-size: 20px; text-align: center;">Registration Confirmed</h1>
+        <p>Thank you for registering for the course. Below are your registration details:</p>
+        <p><span class="highlight">Email :</span> <span id="email"></span></p>
+        <p><span class="highlight">Name :</span> <span id="name"></span></p>
+        <p><span class="highlight">Roll No :</span> <span id="rollno"></span></p>
+        <p><span class="highlight">Year :</span> <span id="year"></span></p>
+        <p><span class="highlight">Department :</span> <span id="department"></span></p>
+        <p><span class="highlight">Phone :</span> <span id="phone"></span></p>
+        <p><span class="highlight">Academic Year :</span> <span id="academicYear"></span></p>
+        <p><span class="highlight">Course :</span> <span id="course"></span></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const email = localStorage.getItem("studentEmail");
+
+            if (!email) {
+                console.error('No email found in local storage');
+                return;
+            }
+
+            fetch('https://credex.onrender.com/confirmation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.registered) {
+                    document.getElementById('email').textContent = data.email;
+                    document.getElementById('name').textContent = data.name;
+                    document.getElementById('rollno').textContent = data.rollno;
+                    document.getElementById('year').textContent = data.year;
+                    document.getElementById('department').textContent = data.department;
+                    document.getElementById('phone').textContent = data.phone;
+                    document.getElementById('academicYear').textContent = data.academicYear;
+                    document.getElementById('course').textContent = data.course;
+                } else {
+                    console.log('Student not registered.');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching student details:', error);
+            });
+        });
+    </script>
+</body>
+</html>
